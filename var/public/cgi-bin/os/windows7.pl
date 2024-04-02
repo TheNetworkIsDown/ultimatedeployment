@@ -798,7 +798,7 @@ sub windows7_ApplyEditDrivers_DoIt
   }
   &UpdateActionProgress($actionid,95,"Wrote OS information");
 
-  &UpdateActionProgress($actionid,100,"Successfull");
+  &UpdateActionProgress($actionid,100,"Successful");
 
   return 0;
 }
@@ -1066,7 +1066,7 @@ sub windows7_ImportOS_DoIt
   }
   &UpdateActionProgress($actionid,95,"Wrote OS information");
 
-  &UpdateActionProgress($actionid,100,"Successfull");
+  &UpdateActionProgress($actionid,100,"Successful");
 
   return 0;
 }

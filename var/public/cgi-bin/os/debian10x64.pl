@@ -475,7 +475,7 @@ sub debian10x64_ImportOS_DoIt
   }
   &UpdateActionProgress($actionid,95,"Wrote OS information");
 
-  &UpdateActionProgress($actionid,100,"Successfull");
+  &UpdateActionProgress($actionid,100,"Successful");
 
   return $result;
 }

@@ -549,7 +549,7 @@ sub bartpe_ImportOS_DoIt
   if ($result) { &UpdateActionProgress($actionid,-2,"Could not write OS information to file"); }
   &UpdateActionProgress($actionid,95,"Wrote OS information");
 
-  &UpdateActionProgress($actionid,100,"Successfull");
+  &UpdateActionProgress($actionid,100,"Successful");
 
   return 0;
 }

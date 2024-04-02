@@ -595,7 +595,7 @@ sub kickstart_ImportOS_DoIt
   }
   &UpdateActionProgress($actionid,95,"Wrote OS information");
 
-  &UpdateActionProgress($actionid,100,"Successfull");
+  &UpdateActionProgress($actionid,100,"Successful");
 
   return 0;
 }

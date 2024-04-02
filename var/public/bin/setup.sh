@@ -35,7 +35,7 @@ SSH=ON
 
 # Text strings
 BACKTITLE="Ultimate Deployment Appliance 3.0 Setup"
-WELCOMETEXT="\nThis is the setup wizard for the Ultimate Deployment Appliance 3.0\n\nUntil you have comleted the wizard the UDA will not have a network connection. Once you are done with the wizard you can use the web-interface to change the settings you provided here. You can press ESC to leave the wizard, but you will have to manually configure the UDA then or rerun the wizard."
+WELCOMETEXT="\nThis is the setup wizard for the Ultimate Deployment Appliance 3.0\n\nUntil you have completed the wizard the UDA will not have a network connection. Once you are done with the wizard you can use the web-interface to change the settings you provided here. You can press ESC to leave the wizard, but you will have to manually configure the UDA then or rerun the wizard."
 HOSTNAMETEXT="\nEnter the hostname for this appliance.\n\nOnly enter the hostname, not the domainname. You will be able to set the DNS settings from the web-interface once web-server is up and running after completion of this wizard."
 IPTEXT="\nEnter the network IP configuration information\n\nUDA can currently only use a static IP-address"
 DHCPTEXT="\nEnter the subnet that you want to be a DHCP server for.\nAlso enter the range of IP addresses that you want offer to systems requesting an address"

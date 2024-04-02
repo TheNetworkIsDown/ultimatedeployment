@@ -573,7 +573,7 @@ sub DeployTemplate_DoIt
       }
     }
   }
-  &UpdateActionProgress($actionid,100,"Successfull");
+  &UpdateActionProgress($actionid,100,"Successful");
 }
 
 sub CopyTemplate

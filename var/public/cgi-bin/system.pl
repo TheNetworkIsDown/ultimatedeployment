@@ -97,7 +97,7 @@ sub AddLocalStorage_DoIt
       return 1;
     }
   }
-  &UpdateActionProgress($actionid,100,"Successfull");
+  &UpdateActionProgress($actionid,100,"Successful");
   return 0;
 }
 
