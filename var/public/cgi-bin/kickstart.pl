@@ -10,7 +10,12 @@ sub kickstart_NewTemplate_Finish
  local($publish)="ON";
  if (!defined($formdata{PUBLISH})) 
  { 
-  $publish = "OFF" ;
+  $publish = "OFF";
+ }
+ local($generatemac)="ON";
+ if (!defined($formdata{GENERATEMAC})) 
+ { 
+  $generatemac = "OFF";
  }
  print "<INPUT TYPE=HIDDEN NAME=module VALUE=templates>\n";
  print "<INPUT TYPE=HIDDEN NAME=action VALUE=new>\n";
@@ -19,6 +24,7 @@ sub kickstart_NewTemplate_Finish
  print "<INPUT TYPE=HIDDEN NAME=OS VALUE=$kickstartos>\n";
  print "<INPUT TYPE=HIDDEN NAME=OSFLAVOR VALUE=\"$formdata{OSFLAVOR}\">\n";
  print "<INPUT TYPE=HIDDEN NAME=MAC VALUE=\"$formdata{MAC}\">\n";
+ print "<INPUT TYPE=HIDDEN NAME=GENERATEMAC VALUE=\"$generatemac\">\n";
  print "<INPUT TYPE=HIDDEN NAME=PUBLISH VALUE=\"$publish\">\n";
  print "<INPUT TYPE=HIDDEN NAME=DESCRIPTION VALUE=\"$formdata{DESCRIPTION}\">\n";
  print "<INPUT TYPE=HIDDEN NAME=TEMPLATE VALUE=\"$formdata{TEMPLATENAME}\">\n";
@@ -38,7 +44,8 @@ sub kickstart_NewTemplate_Finish
  print "<TR><TD>Operating System</TD><TD>$kickstartos</TD></TR>\n";
  print "<TR><TD>Flavor</TD><TD>$formdata{OSFLAVOR}</TD></TR>\n";
  print "<TR><TD>Description</TD><TD>$formdata{DESCRIPTION}</TD></TR>\n";
- print "<TR><TD>MAC</TD><TD>$formdata{MAC}</TD></TR>\n";
+ print "<TR><TD>Bind to MAC</TD><TD>$formdata{MAC}</TD></TR>\n";
+ print "<TR><TD>MAC based config</TD><TD>$generatemac</TD></TR>\n";
  print "<TR><TD>Publish</TD><TD>$publish</TD></TR>\n";
  for $item (keys(%formdata))
  {
@@ -107,13 +114,11 @@ sub kickstart_GetDefaultEFIPublishDir1
   return $publishdir;
 }
 
-
 sub kickstart_GetDefaultEFIPublishFile1
 {
   local($publishdir)="$WWWDIR/ipxe/templates/[TEMPLATE]/subtemplates/[SUBTEMPLATE].ipxe";
   return $publishdir;
 }
-
 
 sub kickstart_CreateTemplate
 {
@@ -131,9 +136,14 @@ sub kickstart_CreateTemplate
   local($mac)=$formdata{MAC};
   local($description)=$formdata{DESCRIPTION};
   local($publish)="ON";
-  if (!defined($formdata{PUBLISH}))
+  if (!defined($formdata{PUBLISH}) or $formdata{PUBLISH} eq "OFF")
   {
     $publish="OFF";
+  }
+  local($generatemac)="ON";
+  if (!defined($formdata{GENERATEMAC}) or $formdata{GENERATEMAC} eq "OFF") 
+  { 
+   $generatemac = "OFF";
   }
 
   local(%config)=();
@@ -143,6 +153,7 @@ sub kickstart_CreateTemplate
   $config{DESCRIPTION}=$description;
   $config{PUBLISH}=$publish;
   $config{MAC}=$mac;
+  $config{GENERATEMAC}=$generatemac;
   $config{CONFIGFILE1}=&{$kickstartos."_GetDefaultConfigFile1"}($template);
   $config{PUBLISHFILE1}=&{$kickstartos."_GetDefaultPublishFile"}($template);
   $config{PUBLISHDIR1}=&{$kickstartos."_GetDefaultPublishDir"}($template);
@@ -185,9 +196,12 @@ sub kickstart_CreateTemplate
      }
   }
 
-  # Copy Template Configuration File\n";
+  # Copy Template Configuration File
   local($result)=&{$kickstartos."_CopyTemplateFile"}($template,$config{CONFIGFILE1});
-  if ($result != 0 ) { return $result};
+  if ($result != 0 ) {
+    &PrintError("CopyTemplateFile error $result, does /var/public/www/templates/$kickstartos.pl exist?");
+    return $result;
+  }
 
   # Write Config File
   local($result)=&WriteTemplateInfo(%config);
@@ -223,7 +237,6 @@ sub kickstart_CreateTemplate
     return 1;
   } 
   
-
   local($result)=&{$kickstartos."_WriteTemplatePXEMenu"}($template,%config);
   if ($result) 
   {
@@ -238,7 +251,8 @@ sub kickstart_CreateTemplate
    &PrintError("Could not write PXE default file");
    return 1;
   }    
-   &PrintSuccess("Created template $template");
+  
+  &PrintSuccess("Created template $template");
 
   return 0;
 }
