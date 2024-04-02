@@ -487,7 +487,7 @@ sub esx7_ImportOS_DoIt
   }
   &UpdateActionProgress($actionid,95,"Wrote OS information");
 
-  &UpdateActionProgress($actionid,100,"Successfull");
+  &UpdateActionProgress($actionid,100,"Successful");
 
   #local($result)=&kickstart_ImportOS_DoIt("esx7",$kernellocation,$initrdlocation,$actionid,@otherfiles);
   return 0;
